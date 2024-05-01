@@ -10,6 +10,20 @@ const userSignup = async (req, res) => {
     });
 
     SuccessResponse.data = response;
+    return res.status(StatusCodes.CREATED).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+  }
+};
+
+const userLogin = async (req, res) => {
+  try {
+    const response = await userService.userLogin({
+      email: req.body.email,
+      password: req.body.password,
+    });
+    SuccessResponse.data = response;
     return res.status(StatusCodes.OK).json(SuccessResponse);
   } catch (error) {
     ErrorResponse.error = error;
@@ -19,4 +33,5 @@ const userSignup = async (req, res) => {
 
 module.exports = {
   userSignup,
+  userLogin,
 };
