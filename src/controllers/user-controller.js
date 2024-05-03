@@ -13,7 +13,7 @@ const userSignup = async (req, res) => {
     return res.status(StatusCodes.CREATED).json(SuccessResponse);
   } catch (error) {
     ErrorResponse.error = error;
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    return res.status(error.statusCode).json(ErrorResponse);
   }
 };
 
@@ -27,11 +27,26 @@ const userLogin = async (req, res) => {
     return res.status(StatusCodes.OK).json(SuccessResponse);
   } catch (error) {
     ErrorResponse.error = error;
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+};
+
+const addRoleToUser = async (req, res) => {
+  try {
+    const response = await userService.addRoleToUser({
+      role: req.body.role,
+      id: req.body.id,
+    });
+    SuccessResponse.data = response;
+    return res.status(StatusCodes.CREATED).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
   }
 };
 
 module.exports = {
   userSignup,
   userLogin,
+  addRoleToUser,
 };
